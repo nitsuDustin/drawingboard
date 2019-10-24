@@ -8,10 +8,10 @@ public class Command implements CommandPrototype {
 	private Stack<String> commands = new Stack<>();
 	
 
-	public void callCommands(String command) {
+	public void callCommands(String commandString) {
 		String [] tempArray;
 		String delimiter = " ";
-		tempArray = command.split(delimiter);
+		tempArray = commandString.split(delimiter);
 		String commandToExecute = tempArray[0];
 		switch (commandToExecute) {
 			case "CREATE":
@@ -31,12 +31,16 @@ public class Command implements CommandPrototype {
 				select(numOfShape);
 				break;
 			case "MOVE":
+				// relies on SELECT
 				break;
 			case "DRAW":
+				// relies on SELECT
 				break;
 			case "COLOR":
+				// relies on SELECT
 				break;
 			case "DELETE":
+				// relies on SELECT
 				break;
 			case "DRAWSCENE":
 				drawscene();
