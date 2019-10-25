@@ -4,47 +4,71 @@ import java.util.*;
 public class Command implements CommandPrototype {
 	private ArrayList<Shape> shapes = new ArrayList<>();
 	private Stack<String> commands = new Stack<>();
+	private Object selectedShape;
 
 	public Command(ArrayList<Shape> shapes, Stack<String> commands) {
 		this.shapes = shapes;
 		this.commands = commands;
+		this.selectedShape = null;
 	}
 
-	public void callCommands(String commandString, Object shape) {
-		String [] tempArray;
-		tempArray = commandString.split(" ");
+	public ArrayList<Shape> getShapeArrayList() {
+		return shapes;
+	}
+
+	public void setShapeArrayList(ArrayList<Shape> shapes) {
+		this.shapes = shapes;
+	}
+
+	public Stack<String> getCommandStack() {
+		return commands;
+	}
+
+	public void setCommandStack(Stack<String> commands) {
+		this.commands = commands;
+	}
+
+	public Object getSelectedShape() {
+		return selectedShape;
+	}
+
+	public void setSelectedShape(Shape selectedShape) {
+		this.selectedShape = selectedShape;
+	}
+
+	public void callCommands(String commandString) {
+		String [] tempArray = commandString.split(" ");
 		String commandToExecute = tempArray[0];
-		System.out.println(tempArray);
 		switch (commandToExecute) {
 			case "CREATE":
 				String newShape = tempArray[1];
-				if (newShape == "RECTANGLE") {
+				if (newShape.equals("RECTANGLE")) {
 					int x = Integer.parseInt(tempArray[2]);
 					int y = Integer.parseInt(tempArray[3]);
 					createRectangle(x,y);
 				}
-				if (newShape == "CIRCLE") {
+				if (newShape.equals("CIRCLE")) {
 					int radius = Integer.parseInt(tempArray[2]);
 					createCircle(radius);
 				}
 				break;
 			case "SELECT":
 				int numOfShape = Integer.parseInt(tempArray[1]);
-				select(numOfShape);
+				selectedShape = select(numOfShape);
 				break;
 			case "MOVE":
 				int x = Integer.parseInt(tempArray[1]);
 				int y = Integer.parseInt(tempArray[2]);
-				move(x, y, shape);
+				move(x, y, selectedShape);
 				break;
 			case "DRAW":
-				draw(shape);
+				draw(selectedShape);
 				break;
 			case "COLOR":
-				color(tempArray[1], shape);
+				color(tempArray[1], selectedShape);
 				break;
 			case "DELETE":
-				delete(shape);
+				delete(selectedShape);
 				break;
 			case "DRAWSCENE":
 				drawscene();
@@ -56,7 +80,8 @@ public class Command implements CommandPrototype {
 				System.out.println("ERROR: invalid command.");
 				return;
 		}
-		commands.addElement(commandString);
+		if (!commandString.equals("UNDO"))
+			commands.addElement(commandString);
 	}
 
 
@@ -75,12 +100,12 @@ public class Command implements CommandPrototype {
 
 	@Override
 	public Object select(int numOfShape) {
-		if(shapes.size()-1 < numOfShape || numOfShape < 0) {
+		if(shapes.size() < numOfShape || numOfShape < 1) {
 			System.out.println("ERROR: Invalid shape for SELECT");
-			return null;
+			return selectedShape;
 		}
 		else
-			return shapes.get(numOfShape);
+			return shapes.get(numOfShape - 1);
 	}
 
 	@Override
@@ -111,8 +136,13 @@ public class Command implements CommandPrototype {
 			System.out.println("Error: Shape not selected.");
 			return;
 		}
-		Shape newShape = (Shape) shape;
-		newShape.setColor(color);
+		List<String> validColors = Arrays.asList("Red", "Blue", "Yellow", "Orange", "Green");
+		if (validColors.contains(color)) {
+			Shape newShape = (Shape) shape;
+			newShape.setColor(color);
+		} else {
+			System.out.println("ERROR: Invalid Color.");
+		}
 	}
 
 	@Override
