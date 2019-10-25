@@ -6,6 +6,7 @@ public class Rectangle extends Shape {
 
 	public Rectangle(int width, int height) {
 		super();
+		super.setColor("Red");
 		this.width = width;
 		this.height = height;
 	}

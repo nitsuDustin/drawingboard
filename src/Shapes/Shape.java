@@ -1,14 +1,15 @@
 package Shapes;
+import java.util.*;
 
 public class Shape {
     private int x;
     private int y;
     private String color;
+    private Stack<Shape> prevShape = new Stack<>();
 
     public Shape() {
         this.x = 0;
         this.y = 0;
-        this.color = "Red";
     }
 
     public int getX() {
@@ -33,5 +34,13 @@ public class Shape {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Stack<Shape> getPreviousShapeStack() {
+        return prevShape;
+    }
+
+    public void setPreviousShapeStack(Stack<Shape> prevShape) {
+        this.prevShape = prevShape;
     }
 }
