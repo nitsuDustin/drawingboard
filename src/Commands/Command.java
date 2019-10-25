@@ -2,17 +2,19 @@ package Commands;
 import Shapes.*;
 import java.util.*;
 public class Command implements CommandPrototype {
-	private Rectangle rectangle;
-	private Circle circle;
-	private ArrayList<Object> shapes = new ArrayList<>();
+	private ArrayList<Shape> shapes = new ArrayList<>();
 	private Stack<String> commands = new Stack<>();
-	
 
-	public void callCommands(String commandString) {
+	public Command(ArrayList<Shape> shapes, Stack<String> commands) {
+		this.shapes = shapes;
+		this.commands = commands;
+	}
+
+	public void callCommands(String commandString, Object shape) {
 		String [] tempArray;
-		String delimiter = " ";
-		tempArray = commandString.split(delimiter);
+		tempArray = commandString.split(" ");
 		String commandToExecute = tempArray[0];
+		System.out.println(tempArray);
 		switch (commandToExecute) {
 			case "CREATE":
 				String newShape = tempArray[1];
@@ -31,16 +33,18 @@ public class Command implements CommandPrototype {
 				select(numOfShape);
 				break;
 			case "MOVE":
-				// relies on SELECT
+				int x = Integer.parseInt(tempArray[1]);
+				int y = Integer.parseInt(tempArray[2]);
+				move(x, y, shape);
 				break;
 			case "DRAW":
-				// relies on SELECT
+				draw(shape);
 				break;
 			case "COLOR":
-				// relies on SELECT
+				color(tempArray[1], shape);
 				break;
 			case "DELETE":
-				// relies on SELECT
+				delete(shape);
 				break;
 			case "DRAWSCENE":
 				drawscene();
@@ -50,60 +54,82 @@ public class Command implements CommandPrototype {
 				break;
 			default:
 				System.out.println("ERROR: invalid command.");
+				return;
 		}
+		commands.addElement(commandString);
 	}
+
+
 	@Override
 	public void createRectangle(int width, int height) {
-		rectangle = new Rectangle(width, height);
+		Rectangle rectangle = new Rectangle(width, height);
 		shapes.add(rectangle);
 	}
 
 	@Override
 	public void createCircle(int radius) {
-		circle = new Circle(radius);
+		Circle circle = new Circle(radius);
 		shapes.add(circle);
 		
 	}
 
 	@Override
 	public Object select(int numOfShape) {
-		if(shapes.get(numOfShape-1) == null) {
+		if(shapes.size()-1 < numOfShape || numOfShape < 0) {
 			System.out.println("ERROR: Invalid shape for SELECT");
 			return null;
 		}
 		else
-			return shapes.get(numOfShape-1);
+			return shapes.get(numOfShape);
 	}
 
 	@Override
 	public void move(int x, int y, Object shape) {
-		// TODO Auto-generated method stub
-	
-		
+		if (shape == null) {
+			System.out.println("Error: Shape not selected.");
+			return;
+		}
+		Shape newShape = (Shape) shape;
+		newShape.setX(x);
+		newShape.setY(y);
 	}
 
 	@Override
 	public void draw(Object shape) {
-		// TODO Auto-generated method stub
-		
+		if (shape == null) {
+			System.out.println("Error: Shape not selected.");
+			return;
+		}
+		Shape newShape = (Shape) shape;
+		System.out.print(newShape.toString());
+		System.out.println();
 	}
 
 	@Override
 	public void color(String color, Object shape) {
-		// TODO Auto-generated method stub
-		
+		if (shape == null) {
+			System.out.println("Error: Shape not selected.");
+			return;
+		}
+		Shape newShape = (Shape) shape;
+		newShape.setColor(color);
 	}
 
 	@Override
 	public void delete(Object shape) {
-		// TODO Auto-generated method stub
-		
+		if (shape == null) {
+			System.out.println("Error: Shape not selected.");
+			return;
+		}
+		Shape newShape = (Shape) shape;
+		shapes.remove(newShape);
 	}
 
 	@Override
 	public void drawscene() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < shapes.size(); i++) {
+			System.out.println(shapes.get(i).toString());
+		}
 	}
 
 	@Override

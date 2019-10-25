@@ -4,6 +4,7 @@ public class Circle extends Shape {
 	private int radius;
 	
 	public Circle(int radius) {
+		super();
 		this.radius = radius;
 	}
 
@@ -15,4 +16,9 @@ public class Circle extends Shape {
 		this.radius = radius;
 	}
 
+	public String toString() {
+		return "Circle, Color: " + super.getColor() 
+				+ ", Origin (" + super.getX() + "," + super.getY()
+				+ "), Radius: " + getRadius();
+	}
 }

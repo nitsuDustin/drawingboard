@@ -5,6 +5,7 @@ public class Rectangle extends Shape {
 	private int height;
 
 	public Rectangle(int width, int height) {
+		super();
 		this.width = width;
 		this.height = height;
 	}
@@ -23,5 +24,11 @@ public class Rectangle extends Shape {
 	
 	public void setHeight(int height) {
 		this.height = height;
+	}
+	
+	public String toString() {
+		return "Rectangle, Color: " + super.getColor() 
+				+ ", Origin (" + super.getX() + "," + super.getY()
+				+ "), Width: " + getWidth() + ", Height: " + getHeight();
 	}
 }

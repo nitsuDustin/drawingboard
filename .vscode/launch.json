@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - theMain",
+            "request": "launch",
+            "mainClass": "theMain",
+            "projectName": "drawingboard_dfff3960"
+        }
+    ]
+}
