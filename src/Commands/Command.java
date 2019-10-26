@@ -15,16 +15,15 @@ public class Command implements CommandPrototype {
 	}
 
 	@Override
-	public void createRectangle(int width, int height) {
-		Rectangle rectangle = new Rectangle(width, height);
-		shapes.add(rectangle);
-	}
-
-	@Override
-	public void createCircle(int radius) {
-		Circle circle = new Circle(radius);
-		shapes.add(circle);
-		
+	public void createShape(int...param) {
+		if(param.length == 2) {
+			Rectangle rectangle = new Rectangle.Builder(param[0], param[1]).build();
+			shapes.add(rectangle);
+		}
+		if(param.length == 1) {
+			Circle circle = new Circle.Builder(param[0]).build();
+			shapes.add(circle);
+		}
 	}
 
 	@Override

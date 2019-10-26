@@ -1,7 +1,7 @@
 package Commands;
 
 public interface CommandPrototype {
-	void createRectangle(int width, int height);
+	//void createRectangle(int width, int height);
 	/*
 	� [w] is the required width of the rectangle
 	� [h] is the required height of the rectangle
@@ -9,13 +9,14 @@ public interface CommandPrototype {
 	� The color of a created rectangle is Red
 	 */
 	
-	void createCircle(int radius);
+	//void createCircle(int radius);
 	/*
 	� [r] is the required radius of the circle
 	� The origin of a created circle is the center at (0,0)
 	� The color of a created circle is Blue
 	 */
-	
+	void createShape(int...size);
+
 	Object select(int numOfShape);
 	/*
 	� Selects a shape to use with future commands MOVE, DRAW, COLOR, DELETE

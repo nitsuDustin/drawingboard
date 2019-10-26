@@ -6,7 +6,7 @@ public class Shape {
     private int y;
     private String color;
     private Stack<Shape> prevShape = new Stack<>();
-
+    
     public Shape() {
         this.x = 0;
         this.y = 0;

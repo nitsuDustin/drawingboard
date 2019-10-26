@@ -13,11 +13,11 @@ public class theMain {
         BufferedReader reader;
         try {
             reader = new BufferedReader
-                    (new FileReader("src/data/commands1.txt"));    // change URL to text file.
+                    (new FileReader("src/data/commands2.txt"));    // change URL to text file.
             String command = reader.readLine();
             while (command != null) {
                 // uncomment to test on text file.
-                //theCommands.callCommands(command); 
+                theCommands.callCommands(command); 
                 command = reader.readLine(); 
             }
             reader.close();
@@ -25,6 +25,7 @@ public class theMain {
             e.printStackTrace();
         }
 
+        /*
         System.out.println("Input a Rectangle and a Circle: two shapes will appear");
         theCommands.callCommands("CREATE RECTANGLE 10 7");
         theCommands.callCommands("CREATE CIRCLE 10");
@@ -113,5 +114,6 @@ public class theMain {
         theCommands.callCommands("UNDO");
         theCommands.callCommands("DRAW");
         System.out.println();
+        */
     }
 }

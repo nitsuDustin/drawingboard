@@ -1,20 +1,16 @@
 package Shapes;
 
 public class Circle extends Shape {
-	private int radius;
 	
-	public Circle(int radius) {
-		super();
+	private final int radius;
+
+	private Circle(Builder builder) {
+		this.radius = builder.radius;
 		super.setColor("Blue");
-		this.radius = radius;
 	}
 
 	public int getRadius() {
-		return this.radius;
-	}
-
-	public void setRadius(int radius) {
-		this.radius = radius;
+		return radius;
 	}
 
 	@Override
@@ -22,5 +18,18 @@ public class Circle extends Shape {
 		return "Circle, Color: " + super.getColor() 
 				+ ", Origin (" + super.getX() + "," + super.getY()
 				+ "), Radius: " + getRadius();
+	}
+
+	public static class Builder {
+		private final int radius;
+
+		public Builder(int radius) {
+			this.radius = radius;
+		}
+
+		public Circle build() {
+			Circle circle = new Circle(this);
+			return circle;
+		}
 	}
 }
