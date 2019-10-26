@@ -17,6 +17,7 @@ public class Circle extends Shape {
 		this.radius = radius;
 	}
 
+	@Override
 	public String toString() {
 		return "Circle, Color: " + super.getColor() 
 				+ ", Origin (" + super.getX() + "," + super.getY()

@@ -4,86 +4,15 @@ import java.util.*;
 public class Command implements CommandPrototype {
 	private ArrayList<Shape> shapes = new ArrayList<>();
 	private Stack<String> commands = new Stack<>();
-	private Object selectedShape;
+	private Stack<Shape> deletedShapes = new Stack<>();
+	private Stack<Object> previousSelectedShapes = new Stack<>();
+	private Shape selectedShape;
 
 	public Command(ArrayList<Shape> shapes, Stack<String> commands) {
 		this.shapes = shapes;
 		this.commands = commands;
 		this.selectedShape = null;
 	}
-
-	public ArrayList<Shape> getShapeArrayList() {
-		return shapes;
-	}
-
-	public void setShapeArrayList(ArrayList<Shape> shapes) {
-		this.shapes = shapes;
-	}
-
-	public Stack<String> getCommandStack() {
-		return commands;
-	}
-
-	public void setCommandStack(Stack<String> commands) {
-		this.commands = commands;
-	}
-
-	public Object getSelectedShape() {
-		return selectedShape;
-	}
-
-	public void setSelectedShape(Shape selectedShape) {
-		this.selectedShape = selectedShape;
-	}
-
-	public void callCommands(String commandString) {
-		String [] tempArray = commandString.split(" ");
-		String commandToExecute = tempArray[0];
-		switch (commandToExecute) {
-			case "CREATE":
-				String newShape = tempArray[1];
-				if (newShape.equals("RECTANGLE")) {
-					int x = Integer.parseInt(tempArray[2]);
-					int y = Integer.parseInt(tempArray[3]);
-					createRectangle(x,y);
-				}
-				if (newShape.equals("CIRCLE")) {
-					int radius = Integer.parseInt(tempArray[2]);
-					createCircle(radius);
-				}
-				break;
-			case "SELECT":
-				int numOfShape = Integer.parseInt(tempArray[1]);
-				selectedShape = select(numOfShape);
-				break;
-			case "MOVE":
-				int x = Integer.parseInt(tempArray[1]);
-				int y = Integer.parseInt(tempArray[2]);
-				move(x, y, selectedShape);
-				break;
-			case "DRAW":
-				draw(selectedShape);
-				break;
-			case "COLOR":
-				color(tempArray[1], selectedShape);
-				break;
-			case "DELETE":
-				delete(selectedShape);
-				break;
-			case "DRAWSCENE":
-				drawscene();
-				break;
-			case "UNDO":
-				undo();
-				break;
-			default:
-				System.out.println("ERROR: invalid command.");
-				return;
-		}
-		if (!commandString.equals("UNDO"))
-			commands.addElement(commandString);
-	}
-
 
 	@Override
 	public void createRectangle(int width, int height) {
@@ -105,6 +34,8 @@ public class Command implements CommandPrototype {
 			return selectedShape;
 		}
 		else
+			if (selectedShape != null)
+				previousSelectedShapes.add(selectedShape);
 			return shapes.get(numOfShape - 1);
 	}
 
@@ -115,6 +46,11 @@ public class Command implements CommandPrototype {
 			return;
 		}
 		Shape newShape = (Shape) shape;
+
+		Shape prevShape = new Shape();
+		prevShape.setNewShape(newShape);
+		newShape.getPreviousShapeStack().add(prevShape);
+
 		newShape.setX(x);
 		newShape.setY(y);
 	}
@@ -139,6 +75,11 @@ public class Command implements CommandPrototype {
 		List<String> validColors = Arrays.asList("Red", "Blue", "Yellow", "Orange", "Green");
 		if (validColors.contains(color)) {
 			Shape newShape = (Shape) shape;
+
+			Shape prevShape = new Shape();
+			prevShape.setNewShape(newShape);
+			newShape.getPreviousShapeStack().add(prevShape);
+
 			newShape.setColor(color);
 		} else {
 			System.out.println("ERROR: Invalid Color.");
@@ -152,6 +93,7 @@ public class Command implements CommandPrototype {
 			return;
 		}
 		Shape newShape = (Shape) shape;
+		deletedShapes.add(newShape);
 		shapes.remove(newShape);
 	}
 
@@ -164,7 +106,63 @@ public class Command implements CommandPrototype {
 
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-		
+		String command = commands.pop();
+		String [] tempArray = command.split(" ");
+		String undoCommand = tempArray[0];
+		Shape tempShape;
+		switch (undoCommand) {
+			case "CREATE":
+				delete(shapes.get(shapes.size() - 1));
+				break;
+			case "SELECT":
+				selectedShape = (Shape) previousSelectedShapes.pop();
+				break;
+			case "MOVE":
+				tempShape = selectedShape.getPreviousShapeStack().pop();
+				selectedShape.setX(tempShape.getX());
+				selectedShape.setY(tempShape.getY());
+				break;
+			case "COLOR":
+				tempShape = selectedShape.getPreviousShapeStack().pop();
+				selectedShape.setColor(tempShape.getColor());
+				break;
+			case "DELETE":
+				tempShape = deletedShapes.pop();
+				shapes.add(tempShape);
+				break;
+			default:
+		}
 	}
+	
+	public ArrayList<Shape> getShapeArrayList() {
+		return shapes;
+	}
+	public void setShapeArrayList(ArrayList<Shape> shapes) {
+		this.shapes = shapes;
+	}
+	public Stack<String> getCommandStack() {
+		return commands;
+	}
+	public void setCommandStack(Stack<String> commands) {
+		this.commands = commands;
+	}
+	public Object getSelectedShape() {
+		return selectedShape;
+	}
+	public void setSelectedShape(Shape selectedShape) {
+		this.selectedShape = selectedShape;
+	}
+	public Stack<Shape> getDelectedShapeStack() {
+		return deletedShapes;
+	}
+	public void setDeletedShapeStack(Stack<Shape> deletedShapes) {
+		this.deletedShapes = deletedShapes;
+	}
+	public Stack<Object> getPreviousSelectedShapes() {
+		return previousSelectedShapes;
+	}
+	public void setPreviousSelectedShapes(Stack<Object> prev) {
+		previousSelectedShapes = prev;
+	}
+
 }

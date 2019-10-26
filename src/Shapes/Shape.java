@@ -43,4 +43,15 @@ public class Shape {
     public void setPreviousShapeStack(Stack<Shape> prevShape) {
         this.prevShape = prevShape;
     }
+
+    public void setNewShape(Shape oldShape) {
+        this.x = oldShape.getX();
+        this.y = oldShape.getY();
+        this.color = oldShape.getColor();
+    }
+
+
+    public String toString() {
+        return x + ", " + y + ", " + color;
+    }
 }
