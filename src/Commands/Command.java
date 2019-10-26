@@ -13,7 +13,17 @@ public class Command implements CommandPrototype {
 		this.commands = commands;
 		this.selectedShape = null;
 	}
-
+	public void create(int...param) {
+		if(param.length == 2) {
+			RectangleStrategy rectangle = new RectangleStrategy();
+			shapes.add(rectangle.createShape(param[0], param[1]));
+		}
+		if(param.length == 1) {
+			CircleStrategy circle = new CircleStrategy();
+			shapes.add(circle.createShape(param[0]));
+		}
+	}
+/*
 	@Override
 	public void createShape(int...param) {
 		if(param.length == 2) {
@@ -25,7 +35,7 @@ public class Command implements CommandPrototype {
 			shapes.add(circle);
 		}
 	}
-
+*/
 	@Override
 	public Object select(int numOfShape) {
 		if(shapes.size() < numOfShape || numOfShape < 1) {

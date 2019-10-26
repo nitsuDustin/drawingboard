@@ -26,12 +26,13 @@ public class CommandContext {
 					int x = Integer.parseInt(tempArray[2]);
 					int y = Integer.parseInt(tempArray[3]);
 					//commands.createRectangle(x,y);
-					commands.createShape(x,y);
+					//commands.createShape(x,y);
+					commands.create(x,y);
 				}
 				if (newShape.equals("CIRCLE")) {
 					int radius = Integer.parseInt(tempArray[2]);
 					//commands.createCircle(radius);
-					commands.createShape(radius);
+					commands.create(radius);
 				}
 				break;
 			case "SELECT":

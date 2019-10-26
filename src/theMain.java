@@ -17,7 +17,7 @@ public class theMain {
             String command = reader.readLine();
             while (command != null) {
                 // uncomment to test on text file.
-                theCommands.callCommands(command); 
+                //theCommands.callCommands(command); 
                 command = reader.readLine(); 
             }
             reader.close();
@@ -25,7 +25,7 @@ public class theMain {
             e.printStackTrace();
         }
 
-        /*
+        
         System.out.println("Input a Rectangle and a Circle: two shapes will appear");
         theCommands.callCommands("CREATE RECTANGLE 10 7");
         theCommands.callCommands("CREATE CIRCLE 10");
@@ -34,7 +34,7 @@ public class theMain {
 
         System.out.println("Select, color, move, and draw Circle");
         theCommands.callCommands("SELECT 2");
-        theCommands.callCommands("COLOR Blue");
+        theCommands.callCommands("COLOR Red");
         theCommands.callCommands("MOVE 10 10");
         theCommands.callCommands("DRAW");
         System.out.println();
@@ -114,6 +114,6 @@ public class theMain {
         theCommands.callCommands("UNDO");
         theCommands.callCommands("DRAW");
         System.out.println();
-        */
+        
     }
 }

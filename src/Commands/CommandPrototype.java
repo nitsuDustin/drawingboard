@@ -15,8 +15,8 @@ public interface CommandPrototype {
 	� The origin of a created circle is the center at (0,0)
 	� The color of a created circle is Blue
 	 */
-	void createShape(int...size);
-
+	//Shape createShape(int...size);
+	
 	Object select(int numOfShape);
 	/*
 	� Selects a shape to use with future commands MOVE, DRAW, COLOR, DELETE
