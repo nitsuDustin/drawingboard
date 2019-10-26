@@ -23,19 +23,7 @@ public class Command implements CommandPrototype {
 			shapes.add(circle.createShape(param[0]));
 		}
 	}
-/*
-	@Override
-	public void createShape(int...param) {
-		if(param.length == 2) {
-			Rectangle rectangle = new Rectangle.Builder(param[0], param[1]).build();
-			shapes.add(rectangle);
-		}
-		if(param.length == 1) {
-			Circle circle = new Circle.Builder(param[0]).build();
-			shapes.add(circle);
-		}
-	}
-*/
+
 	@Override
 	public Object select(int numOfShape) {
 		if(shapes.size() < numOfShape || numOfShape < 1) {
@@ -155,12 +143,6 @@ public class Command implements CommandPrototype {
 	public void setCommandStack(Stack<String> commands) {
 		this.commands = commands;
 	}
-	public Object getSelectedShape() {
-		return selectedShape;
-	}
-	public void setSelectedShape(Shape selectedShape) {
-		this.selectedShape = selectedShape;
-	}
 	public Stack<Shape> getDelectedShapeStack() {
 		return deletedShapes;
 	}
@@ -172,6 +154,12 @@ public class Command implements CommandPrototype {
 	}
 	public void setPreviousSelectedShapes(Stack<Object> prev) {
 		previousSelectedShapes = prev;
+	}
+	public Object getSelectedShape() {
+		return selectedShape;
+	}
+	public void setSelectedShape(Shape selectedShape) {
+		this.selectedShape = selectedShape;
 	}
 
 }
